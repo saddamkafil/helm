@@ -1,6 +1,6 @@
 # Helm functions and examples
 
-Note: the vaules.yaml for this is at https://github.com/kaza514/helm/blob/master/values.yaml 
+Note: the vaules.yaml for this is at https://github.com/kaza514/helm/blob/main/Values.yaml
 
 
 ## 1. quote 
