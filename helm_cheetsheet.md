@@ -9,14 +9,7 @@ https://cloudinfra.jfrog.io/ui/login/
 1. Downloading and Installing helm binary
         ```sh
         [root@ip-172-31-4-56 ~]# wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
-        Resolving get.helm.sh (get.helm.sh)... 152.199.39.108, 2606:2800:247:1cb7:261b:1f9c:2074:3c
-        Connecting to get.helm.sh (get.helm.sh)|152.199.39.108|:443... connected.
-        HTTP request sent, awaiting response... 200 OK
-        Length: 13633605 (13M) [application/x-tar]
         Saving to: ‘helm-v3.8.2-linux-amd64.tar.gz’
-
-        100%[=============================================================================================>] 13,633,605  --.-K/s   in 0.1s
-
         2022-04-21 02:03:07 (88.7 MB/s) - ‘helm-v3.8.2-linux-amd64.tar.gz’ saved [13633605/13633605]
 
         [root@ip-172-31-4-56 ~]# ls -l
