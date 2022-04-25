@@ -148,84 +148,61 @@ https://cloudinfra.jfrog.io/ui/login/
 
 
 
+1. How to search new charts from stable remote repo 
 
-[root@ip-172-31-4-56 ~]# helm install tomcat stable/tomcat
-WARNING: This chart is deprecated
-NAME: tomcat
-LAST DEPLOYED: Thu Apr 21 02:26:37 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
-1. Get the application URL by running these commands:
-     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get svc -w tomcat'
-  export SERVICE_IP=$(kubectl get svc --namespace default tomcat -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-  echo http://$SERVICE_IP:
-
-
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+        $ helm install tomcat stable/tomcat
+        WARNING: This chart is deprecated
+        NAME: tomcat
+        LAST DEPLOYED: Thu Apr 21 02:26:37 2022
+        NAMESPACE: default
+        STATUS: deployed
+        REVISION: 1
+        TEST SUITE: None
+        NOTES:
+        Get the application URL by running these commands:
+             NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+                   You can watch the status of by running 'kubectl get svc -w tomcat'
+          export SERVICE_IP=$(kubectl get svc --namespace default tomcat -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          echo http://$SERVICE_IP:
 
 
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          22m
-tomcat-bf4bc978c-rpnxj            0/1     Running   0          48s
+        $ kubectl get pods
+        NAME                              READY   STATUS    RESTARTS   AGE
+        dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          22m
+        tomcat-bf4bc978c-rpnxj            1/1     Running   0          48s
 
 
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
+
+## Removing repo charts 
+
+1. How to Uninstall deployed charts
+
+        $ helm list
+        NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+        dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
+        tomcat  default         1               2022-04-21 02:26:37.619094814 +0000 UTC deployed        tomcat-0.4.3    7.0
+
+        $ helm uninstall tomcat
+        release "tomcat" uninstalled
+
+        $ helm list
+        NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+        dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
+
+        $ kubectl get pods
+        NAME                              READY   STATUS    RESTARTS   AGE
+        dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          24m
 
 
-[root@ip-172-31-4-56 ~]# helm search repo tomcat
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-dragon/bitnami/tomcat   9.2.10          10.0.6          Chart for Apache Tomcat
-dragon/stable/tomcat    0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
-stable/tomcat           0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
+1. How to delete dragon repo fron local
 
+        $ helm repo remove dragon
+        "dragon" has been removed from your repositories
 
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
+        $ helm repo list
+        NAME    URL
+        stable  https://charts.helm.sh/stable
 
-
-[root@ip-172-31-4-56 ~]# helm repo remove dragon
-"dragon" has been removed from your repositories
-
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-
-
-[root@ip-172-31-4-56 ~]# helm search repo tomcat
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-stable/tomcat   0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
-
-
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
-tomcat  default         1               2022-04-21 02:26:37.619094814 +0000 UTC deployed        tomcat-0.4.3    7.0
-
-[root@ip-172-31-4-56 ~]# helm uninstall tomcat
-release "tomcat" uninstalled
-
-
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
-
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          24m
 
 
 [root@ip-172-31-4-56 ~]# helm search repo tomcat
