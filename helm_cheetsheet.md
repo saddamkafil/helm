@@ -6,7 +6,7 @@ https://cloudinfra.jfrog.io/ui/login/
 
 # login into Linux machine where you can manage you kubernetes Cluster
 
-1. Downloading helm
+1. Downloading helm gip file
 
         $ wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
         Saving to: ‘helm-v3.8.2-linux-amd64.tar.gz’
