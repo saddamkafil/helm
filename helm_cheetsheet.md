@@ -6,7 +6,7 @@ https://cloudinfra.jfrog.io/ui/login/
 
 # login  into Linux machine where you can manage you kubernetes Cluster
 
-1. Downloading and Installing helm binary
+1. Downloading helm
 
         ```sh
         $ wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
@@ -16,7 +16,10 @@ https://cloudinfra.jfrog.io/ui/login/
         $ ls -l
         total 13316
         -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
-
+        ```
+        
+1. Extrating Helm gz file
+        ```sh
         $ tar -xvf helm-v3.8.2-linux-amd64.tar.gz
         linux-amd64/
         linux-amd64/helm
@@ -35,34 +38,16 @@ https://cloudinfra.jfrog.io/ui/login/
         -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
         -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
         -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
+        ```
 
-        $ ls -l
-        total 44036
-        -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
-        -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
-        -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
+1. Copying executable Helm binary to bin directory
         
+        ```sh
         $ cp helm /usr/bin/
+        ```
         
-        $ cd ..
-
-        $ ls -l
-        total 13316
-        -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
-        drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
-
-        $ rm -rf helm-v3.8.2-linux-amd64.tar.gz helm
-
-        $ ls -l
-        total 0
-        drwxr-xr-x 2 3434 3434 50 Apr 13 17:56 linux-amd64
-
-        $ rm -rf linux-amd64/
-
-        $ ls -l
-        total 0
-
-
+1. Checking Helm Version 
+        ```sh
         $ helm version
         version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
         ```
