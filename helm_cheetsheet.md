@@ -4,7 +4,7 @@
 ### Signup or signin in to Jfrog Artifactory 
 https://cloudinfra.jfrog.io/ui/login/
 
-# login  into Linux machine where you can manage you kubernetes Cluster
+# login into Linux machine where you can manage you kubernetes Cluster
 
 1. Downloading helm
 
@@ -16,7 +16,7 @@ https://cloudinfra.jfrog.io/ui/login/
         total 13316
         -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
         
-1. Extrating Helm gz file
+1. how to extarct Helm zip file
         
         $ tar -xvf helm-v3.8.2-linux-amd64.tar.gz
         linux-amd64/
@@ -64,7 +64,7 @@ https://cloudinfra.jfrog.io/ui/login/
         drwxr-xr-x 3 root root  162 Apr 21 02:04 templates
         -rw-r--r-- 1 root root 1874 Apr 21 02:04 values.yaml
 
-# Installing Diamond Chart with the name dragon release
+## Installing   Diamond Chart with the name dragon release
 
         $ helm install dragon diamond
         NAME: dragon
@@ -79,20 +79,20 @@ https://cloudinfra.jfrog.io/ui/login/
           echo "Visit http://127.0.0.1:8080 to use your application"
           kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 
-1. Checking diamond pods
+1. Checking newly deployed diamond pods
 
         $ kubectl get pods
         NAME                              READY   STATUS    RESTARTS   AGE
         dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          9s
 
 
-1. Checking dragon deployed release
+1. how to check newly deployed dragon release
 
         $ helm list
         NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
         dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
 
-1. How to add Helm repo
+1. How to add new Helm repo
 
         $ helm repo add stable https://charts.helm.sh/stable
         "stable" has been added to your repositories
@@ -105,6 +105,7 @@ https://cloudinfra.jfrog.io/ui/login/
 
 
 1. How to search remote repo charts from stable
+
         $ helm search repo nginx
         NAME                            CHART VERSION   APP VERSION     DESCRIPTION
         stable/nginx-ingress            1.41.3          v0.34.1         DEPRECATED! An nginx Ingress controller that us...
