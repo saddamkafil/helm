@@ -305,7 +305,7 @@ https://cloudinfra.jfrog.io/ui/login/
         demo-mychart-6df56fb8df-6pzdq   1/1     Running   0          9s
 
 
-# Upgrading Charts
+# Upgrading Helm Charts
 Note: modify required chnages in values.yaml and charts.yaml now create package and push it into remote repo.  
 
 1. How to upgrade existing charts from jfrog repo
