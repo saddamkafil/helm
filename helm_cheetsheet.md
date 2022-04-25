@@ -47,158 +47,104 @@ https://cloudinfra.jfrog.io/ui/login/
         $ helm version
         version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
         
+# Creating Demo Charts
 
-[root@ip-172-31-4-56 ~]# helm repo list
-Error: no repositories to show
+        $ helm create diamond
+        Creating diamond
 
+        $ ls -l
+        drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
 
-[root@ip-172-31-4-56 ~]# helm create diamond
-Creating diamond
+        $ cd diamond/
 
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+        $ ls -l
+        total 8
+        drwxr-xr-x 2 root root    6 Apr 21 02:04 charts
+        -rw-r--r-- 1 root root 1143 Apr 21 02:04 Chart.yaml
+        drwxr-xr-x 3 root root  162 Apr 21 02:04 templates
+        -rw-r--r-- 1 root root 1874 Apr 21 02:04 values.yaml
 
-[root@ip-172-31-4-56 ~]# cd diamond/
+# Installing Diamond Chart with the name dragon release
 
+        $ helm install dragon diamond
+        NAME: dragon
+        LAST DEPLOYED: Thu Apr 21 02:05:23 2022
+        NAMESPACE: default
+        STATUS: deployed
+        REVISION: 1
+        NOTES:
+        Get the application URL by running these commands:
+          export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=diamond,app.kubernetes.io/instance=dragon" -o jsonpath="{.items[0].metadata.name}")
+          export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+          echo "Visit http://127.0.0.1:8080 to use your application"
+          kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 
-[root@ip-172-31-4-56 diamond]# ls -l
-total 8
-drwxr-xr-x 2 root root    6 Apr 21 02:04 charts
--rw-r--r-- 1 root root 1143 Apr 21 02:04 Chart.yaml
-drwxr-xr-x 3 root root  162 Apr 21 02:04 templates
--rw-r--r-- 1 root root 1874 Apr 21 02:04 values.yaml
+1. Checking diamond pods
 
-[root@ip-172-31-4-56 diamond]# vi values.yaml
-
-
-[root@ip-172-31-4-56 diamond]# cd ..
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
-
-
-[root@ip-172-31-4-56 ~]# helm install dragon diamond
-NAME: dragon
-LAST DEPLOYED: Thu Apr 21 02:05:23 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-NOTES:
-1. Get the application URL by running these commands:
-  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=diamond,app.kubernetes.io/instance=dragon" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+        $ kubectl get pods
+        NAME                              READY   STATUS    RESTARTS   AGE
+        dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          9s
 
 
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS              RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   0/1     ContainerCreating   0          4s
+1. Checking dragon deployed release
+
+        $ helm list
+        NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+        dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
+
+1. How to add Helm repo
+
+        $ helm repo add stable https://charts.helm.sh/stable
+        "stable" has been added to your repositories
+        
+1. How to list all repos
+
+        $ helm repo list
+        NAME    URL
+        stable  https://charts.helm.sh/stable
 
 
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          9s
-
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          10s
-
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          10s
+1. How to search remote repo charts from stable
+        $ helm search repo nginx
+        NAME                            CHART VERSION   APP VERSION     DESCRIPTION
+        stable/nginx-ingress            1.41.3          v0.34.1         DEPRECATED! An nginx Ingress controller that us...
+        stable/nginx-ldapauth-proxy     0.1.6           1.13.5          DEPRECATED - nginx proxy with ldapauth
+        stable/nginx-lego               0.3.1                           Chart for nginx-ingress-controller and kube-lego
+        stable/gcloud-endpoints         0.1.2           1               DEPRECATED Develop, deploy, protect and monitor...
 
 
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
+1. How to add new jfrog repo 
 
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+        $  helm repo add dragon https://cloudinfra.jfrog.io/artifactory/api/helm/dragon --username xxxxxxx@gmail.com --password api_xxxxxxxxxxxxxxxxxx
+        "dragon" has been added to your repositories
 
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
+1. How to List all existing helm repos
 
+        $  helm repo list
+        NAME    URL
+        stable  https://charts.helm.sh/stable
+        dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
 
-[root@ip-172-31-4-56 ~]# helm repo add stable https://charts.helm.sh/stable
-"stable" has been added to your repositories
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-
-
-[root@ip-172-31-4-56 ~]# helm search repo nginx
-NAME                            CHART VERSION   APP VERSION     DESCRIPTION
-stable/nginx-ingress            1.41.3          v0.34.1         DEPRECATED! An nginx Ingress controller that us...
-stable/nginx-ldapauth-proxy     0.1.6           1.13.5          DEPRECATED - nginx proxy with ldapauth
-stable/nginx-lego               0.3.1                           Chart for nginx-ingress-controller and kube-lego
-stable/gcloud-endpoints         0.1.2           1               DEPRECATED Develop, deploy, protect and monitor...
-
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-
-
-[root@ip-172-31-4-56 ~]# helm repo add dragon https://cloudinfra.jfrog.io/artifactory/api/helm/dragon --username xxxxxxx@gmail.com --password api_xxxxxxxxxxxxxxxxxx
-"dragon" has been added to your repositories
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
-
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
-
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
-
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
-
-
-[root@ip-172-31-4-56 ~]# helm repo update
-Hang tight while we grab the latest from your chart repositories...
-...Successfully got an update from the "stable" chart repository
-...Successfully got an update from the "dragon" chart repository
-Update Complete. ⎈Happy Helming!⎈
+1. How to update local repos yaml from remote repo
+ 
+        $  helm repo update
+        Hang tight while we grab the latest from your chart repositories...
+        ...Successfully got an update from the "stable" chart repository
+        ...Successfully got an update from the "dragon" chart repository
+        Update Complete. ⎈Happy Helming!⎈
 
 
 
-[root@ip-172-31-4-56 ~]# helm search repo tomcat
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-dragon/bitnami/tomcat   9.2.10          10.0.6          Chart for Apache Tomcat
-dragon/stable/tomcat    0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
-stable/tomcat           0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
+1. How to search remote chart from newly added helm repos
+
+        $ helm search repo tomcat
+        NAME                    CHART VERSION   APP VERSION     DESCRIPTION
+        dragon/bitnami/tomcat   9.2.10          10.0.6          Chart for Apache Tomcat
+        dragon/stable/tomcat    0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
+        stable/tomcat           0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
 
 
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
 
-
-[root@ip-172-31-4-56 ~]# helm repo list
-NAME    URL
-stable  https://charts.helm.sh/stable
-dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
 
 
 
