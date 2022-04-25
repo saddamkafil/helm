@@ -173,7 +173,7 @@ https://cloudinfra.jfrog.io/ui/login/
 
 
 
-## Removing repo charts 
+## Removing / Uninstalling helm charts 
 
 1. How to Uninstall deployed charts
 
@@ -205,184 +205,151 @@ https://cloudinfra.jfrog.io/ui/login/
 
 
 
-[root@ip-172-31-4-56 ~]# helm search repo tomcat
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-stable/tomcat   0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
 
-[root@ip-172-31-4-56 ~]# helm install sai stable/tomcat
-WARNING: This chart is deprecated
-NAME: sai
-LAST DEPLOYED: Thu Apr 21 02:31:04 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
-1. Get the application URL by running these commands:
-     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get svc -w sai-tomcat'
-  export SERVICE_IP=$(kubectl get svc --namespace default sai-tomcat -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-  echo http://$SERVICE_IP:
+## Pushing Helm charts to Jfrog repo
+ Note: Please create remote repository in Jfrog
+
+
+1. Creating two charts with version 1.0 and 1.1 
+
+        $ helm package mychart
+        Successfully packaged chart and saved it to: /root/mychart-0.1.0.tgz
+
+        $ helm package mychart
+        Successfully packaged chart and saved it to: /root/mychart-0.1.1.tgz
+
+1. Pushing 1.0 and 1.1 charts to jfrog remote repos
+
+        $ curl -H "X-JFrog-Art-Api:37tKDAKNjDLfqcvzozWmy" -T mychart-0.1.0.tgz "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm/mychart-0.1.0.tgz"
+        {
+          "repo" : "todayhelm-helm-local",
+          "path" : "/mychart-0.1.0.tgz",
+          "created" : "2022-04-23T01:47:36.319Z",
+          "createdBy" : "xxxxxx@gmail.com",
+          "downloadUri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.0.tgz",
+          "mimeType" : "application/x-gzip",
+          "size" : "3753",
+          "checksums" : {
+            "sha1" : "xxxxxxxxxxxxxxxx",
+            "md5" : "xxxxxxxxxxxx",
+            "sha256" : "xxxxxxxxxxxxxxxx"
+          },
+          "originalChecksums" : {
+            "sha256" : "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          "uri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.0.tgz"
+        }
+
+        $  curl -H "X-JFrog-Art-Api:37tKDAKNjDLfqcvzozWmy" -T mychart-0.1.1.tgz "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm/mychart-0.1.1.tgz"
+        {
+          "repo" : "todayhelm-helm-local",
+          "path" : "/mychart-0.1.1.tgz",
+          "created" : "2022-04-23T01:48:07.835Z",
+          "createdBy" : "xxxxxxx@gmail.com",
+          "downloadUri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.1.tgz",
+          "mimeType" : "application/x-gzip",
+          "size" : "3755",
+          "checksums" : {
+            "sha1" : "xxxxxxx",
+            "md5" : "xxxxxxxxxxxxxxxx",
+            "sha256" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          "originalChecksums" : {
+            "sha256" : "2c63008b252acab1a305ca033fd712c6a8dde6cf9a2c596a9d6df7fe54b8f8b7"
+          },
+          "uri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.1.tgz"
+
+
+1. Now update your local repo using helm repo update
+
+        $ helm repo update
+        Hang tight while we grab the latest from your chart repositories...
+        ...Successfully got an update from the "dragon" chart repository
+        Update Complete. ⎈Happy Helming!⎈
+
+1. How to search your pushed charts from remote repo
+
+        $ helm search repo dragon/mychart
+        NAME            CHART VERSION   APP VERSION     DESCRIPTION
+        dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
+
+1. How to search all pushed release from remote repo charts
+
+        $ helm search repo dragon/mychart --versions
+        NAME            CHART VERSION   APP VERSION     DESCRIPTION
+        dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
+        dragon/mychart  0.1.0           1.16.0          A Helm chart for Kubernetes
+
+
+1. How to install remote repo specific charts version
+
+        $ helm install demo dragon/mychart --version 0.1.0
+        NAME: demo
+        LAST DEPLOYED: Sat Apr 23 01:53:14 2022
+        NAMESPACE: default
+        STATUS: deployed
+        REVISION: 1
+        NOTES:
+        Get the application URL by running these commands:
+          export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
+          export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+          echo "Visit http://127.0.0.1:8080 to use your application"
+          kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+
+1. Validating 
+
+        $ kubectl get pods
+        NAME                            READY   STATUS    RESTARTS   AGE
+        demo-mychart-6df56fb8df-6pzdq   1/1     Running   0          9s
+
+
+# Upgrading Charts
+Note: modify required chnages in values.yaml and charts.yaml now create package and push it into remote repo.  
+
+1. How to upgrade existing charts from jfrog repo
+
+        $ helm upgrade demo dragon/mychart --version 0.1.1
+        Release "demo" has been upgraded. Happy Helming!
+        NAME: demo
+        LAST DEPLOYED: Sat Apr 23 01:54:07 2022
+        NAMESPACE: default
+        STATUS: deployed
+        REVISION: 2
+        NOTES:
+        Get the application URL by running these commands:
+          export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
+          export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+          echo "Visit http://127.0.0.1:8080 to use your application"
+          kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
   
-  
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                              READY   STATUS    RESTARTS   AGE
-dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          25m
-sai-tomcat-6788bdcd84-dftrb       0/1     Running   0          5s
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+ 1. Validation 
+ 
+        $ helm list
+        NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+        demo    default         2               2022-04-23 01:54:07.035631876 +0000 UTC deployed        mychart-0.1.1   1.16.0
 
 
-[root@ip-172-31-4-56 ~]# helm search repo tomcat
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-stable/tomcat   0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
+        $ helm upgrade demo dragon/mychart --version 0.1.1
+        Release "demo" has been upgraded. Happy Helming!
+        NAME: demo
+        LAST DEPLOYED: Sat Apr 23 01:58:28 2022
+        NAMESPACE: default
+        STATUS: deployed
+        REVISION: 4
+        NOTES:
+        Get the application URL by running these commands:
+          export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
+          export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+          echo "Visit http://127.0.0.1:8080 to use your application"
+          kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 
 
+        $ helm list
+        NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+        demo    default         4               2022-04-23 01:58:28.187773903 +0000 UTC deployed        mychart-0.1.1   latest
 
+1. How to rollback chart to specific revisin
 
-=============================================
-  Day4
-============================================
-
-[root@ip-172-31-4-56 ~]# helm package mychart
-Successfully packaged chart and saved it to: /root/mychart-0.1.0.tgz
-
-[root@ip-172-31-4-56 ~]# helm package mychart
-Successfully packaged chart and saved it to: /root/mychart-0.1.1.tgz
-
-
-[root@ip-172-31-4-56 ~]# curl -H "X-JFrog-Art-Api:37tKDAKNjDLfqcvzozWmy" -T mychart-0.1.0.tgz "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm/mychart-0.1.0.tgz"
-{
-  "repo" : "todayhelm-helm-local",
-  "path" : "/mychart-0.1.0.tgz",
-  "created" : "2022-04-23T01:47:36.319Z",
-  "createdBy" : "xxxxxx@gmail.com",
-  "downloadUri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.0.tgz",
-  "mimeType" : "application/x-gzip",
-  "size" : "3753",
-  "checksums" : {
-    "sha1" : "xxxxxxxxxxxxxxxx",
-    "md5" : "xxxxxxxxxxxx",
-    "sha256" : "xxxxxxxxxxxxxxxx"
-  },
-  "originalChecksums" : {
-    "sha256" : "xxxxxxxxxxxxxxxxxxxxxxxxxx"
-  },
-  "uri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.0.tgz"
-}
-
-
-
-[root@ip-172-31-4-56 ~]# curl -H "X-JFrog-Art-Api:37tKDAKNjDLfqcvzozWmy" -T mychart-0.1.1.tgz "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm/mychart-0.1.1.tgz"
-{
-  "repo" : "todayhelm-helm-local",
-  "path" : "/mychart-0.1.1.tgz",
-  "created" : "2022-04-23T01:48:07.835Z",
-  "createdBy" : "xxxxxxx@gmail.com",
-  "downloadUri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.1.tgz",
-  "mimeType" : "application/x-gzip",
-  "size" : "3755",
-  "checksums" : {
-    "sha1" : "xxxxxxx",
-    "md5" : "xxxxxxxxxxxxxxxx",
-    "sha256" : "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  },
-  "originalChecksums" : {
-    "sha256" : "2c63008b252acab1a305ca033fd712c6a8dde6cf9a2c596a9d6df7fe54b8f8b7"
-  },
-  "uri" : "https://cloudinfra.jfrog.io/artifactory/todayhelm-helm-local/mychart-0.1.1.tgz"
-
-
-
-[root@ip-172-31-4-56 ~]# helm repo update
-Hang tight while we grab the latest from your chart repositories...
-...Successfully got an update from the "dragon" chart repository
-Update Complete. ⎈Happy Helming!⎈
-
-[root@ip-172-31-4-56 ~]# helm search repo dragon/mychart
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
-
-[root@ip-172-31-4-56 ~]# helm search repo dragon/mychart --versions
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
-dragon/mychart  0.1.0           1.16.0          A Helm chart for Kubernetes
-
-
-[root@ip-172-31-4-56 ~]# helm install demo dragon/mychart --version 0.1.0
-NAME: demo
-LAST DEPLOYED: Sat Apr 23 01:53:14 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-NOTES:
-1. Get the application URL by running these commands:
-  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
-
-
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                            READY   STATUS              RESTARTS   AGE
-demo-mychart-6df56fb8df-6pzdq   0/1     ContainerCreating   0          7s
-
-[root@ip-172-31-4-56 ~]# kubectl get pods
-NAME                            READY   STATUS    RESTARTS   AGE
-demo-mychart-6df56fb8df-6pzdq   1/1     Running   0          9s
-
-
-[root@ip-172-31-4-56 ~]# helm upgrade demo dragon/mychart --version 0.1.1
-Release "demo" has been upgraded. Happy Helming!
-NAME: demo
-LAST DEPLOYED: Sat Apr 23 01:54:07 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 2
-NOTES:
-1. Get the application URL by running these commands:
-  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
-  
-  
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-demo    default         2               2022-04-23 01:54:07.035631876 +0000 UTC deployed        mychart-0.1.1   1.16.0
-
-
-[root@ip-172-31-4-56 ~]# helm upgrade demo dragon/mychart --version 0.1.1
-Release "demo" has been upgraded. Happy Helming!
-NAME: demo
-LAST DEPLOYED: Sat Apr 23 01:58:28 2022
-NAMESPACE: default
-STATUS: deployed
-REVISION: 4
-NOTES:
-1. Get the application URL by running these commands:
-  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=mychart,app.kubernetes.io/instance=demo" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-  echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
-
-
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-demo    default         4               2022-04-23 01:58:28.187773903 +0000 UTC deployed        mychart-0.1.1   latest
-
-[root@ip-172-31-4-56 ~]# helm rollback demo 2
-Rollback was a success! Happy Helming!
-
-
-[root@ip-172-31-4-56 ~]# helm list
-NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-demo    default         5               2022-04-23 02:02:16.603430405 +0000 UTC deployed        mychart-0.1.1   1.16.0
-
-[root@ip-172-31-4-56 ~]# helm search repo dragon/mychart --versions
-NAME            CHART VERSION   APP VERSION     DESCRIPTION
-dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
-dragon/mychart  0.1.0           1.16.0          A Helm chart for Kubernetes
+        $ helm rollback demo 2
+        Rollback was a success! Happy Helming!
 
