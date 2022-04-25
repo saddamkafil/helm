@@ -47,7 +47,9 @@ https://cloudinfra.jfrog.io/ui/login/
         $ helm version
         version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
         
-# Creating Demo Charts
+# Creating Demo helm Charts
+
+1. Creating Demo charts with the name diamond
 
         $ helm create diamond
         Creating diamond
@@ -64,7 +66,7 @@ https://cloudinfra.jfrog.io/ui/login/
         drwxr-xr-x 3 root root  162 Apr 21 02:04 templates
         -rw-r--r-- 1 root root 1874 Apr 21 02:04 values.yaml
 
-## Installing   Diamond Chart with the name dragon release
+## Installing  Diamond Chart with the name dragon release
 
         $ helm install dragon diamond
         NAME: dragon
