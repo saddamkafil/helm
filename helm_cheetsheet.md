@@ -1,4 +1,4 @@
-[root@ip-172-31-4-56 ~]#
+
 [root@ip-172-31-4-56 ~]# wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
 --2022-04-21 02:03:05--  https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
 Resolving get.helm.sh (get.helm.sh)... 152.199.39.108, 2606:2800:247:1cb7:261b:1f9c:2074:3c
@@ -11,93 +11,105 @@ Saving to: ‘helm-v3.8.2-linux-amd64.tar.gz’
 
 2022-04-21 02:03:07 (88.7 MB/s) - ‘helm-v3.8.2-linux-amd64.tar.gz’ saved [13633605/13633605]
 
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 13316
 -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
+
+
 [root@ip-172-31-4-56 ~]# tar -xvf helm-v3.8.2-linux-amd64.tar.gz
 linux-amd64/
 linux-amd64/helm
 llinux-amd64/LICENSE
 linux-amd64/README.md
+
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 13316
 -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
 drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
+
 [root@ip-172-31-4-56 ~]# cd linux-amd64/
+
 [root@ip-172-31-4-56 linux-amd64]# ls -l
 total 44036
 -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
 -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
 -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
+
+
+
 [root@ip-172-31-4-56 linux-amd64]# ls -l
 total 44036
 -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
 -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
 -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
+
+
+
 [root@ip-172-31-4-56 linux-amd64]# which vi
 /usr/bin/vi
+
 [root@ip-172-31-4-56 linux-amd64]# which ls
 alias ls='ls --color=auto'
         /usr/bin/ls
+
 [root@ip-172-31-4-56 linux-amd64]# cp helm /usr/bin/
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
-[root@ip-172-31-4-56 linux-amd64]#
+
+
 [root@ip-172-31-4-56 linux-amd64]# cd ..
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 13316
 -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
 drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
+
 [root@ip-172-31-4-56 ~]# rm -rf helm-v3.8.2-linux-amd64.tar.gz helm
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 2 3434 3434 50 Apr 13 17:56 linux-amd64
 [root@ip-172-31-4-56 ~]# rm -rf linux-amd64/
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
 [root@ip-172-31-4-56 ~]# helm version
 version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
 [root@ip-172-31-4-56 ~]# helm repo list
 Error: no repositories to show
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
 [root@ip-172-31-4-56 ~]# helm create diamond
 Creating diamond
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+
 [root@ip-172-31-4-56 ~]# cd diamond/
-[root@ip-172-31-4-56 diamond]#
+
+
 [root@ip-172-31-4-56 diamond]# ls -l
 total 8
 drwxr-xr-x 2 root root    6 Apr 21 02:04 charts
 -rw-r--r-- 1 root root 1143 Apr 21 02:04 Chart.yaml
 drwxr-xr-x 3 root root  162 Apr 21 02:04 templates
 -rw-r--r-- 1 root root 1874 Apr 21 02:04 values.yaml
+
 [root@ip-172-31-4-56 diamond]# vi values.yaml
 
 
 [root@ip-172-31-4-56 diamond]# cd ..
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
-
-
 
 
 [root@ip-172-31-4-56 ~]# helm install dragon diamond
@@ -112,25 +124,29 @@ NOTES:
   export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                              READY   STATUS              RESTARTS   AGE
 dragon-diamond-5c8df5bc97-7s498   0/1     ContainerCreating   0          4s
+
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                              READY   STATUS    RESTARTS   AGE
 dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          9s
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                              READY   STATUS    RESTARTS   AGE
 dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          10s
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                              READY   STATUS    RESTARTS   AGE
 dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          10s
+
+
 [root@ip-172-31-4-56 ~]# helm list
 NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
 dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
-
 
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
@@ -141,10 +157,8 @@ NAME    NAMESPACE       REVISION        UPDATED                                 
 dragon  default         1               2022-04-21 02:05:23.334441334 +0000 UTC deployed        diamond-0.1.0   1.16.0
 
 
-
 [root@ip-172-31-4-56 ~]# helm repo add stable https://charts.helm.sh/stable
 "stable" has been added to your repositories
-
 
 [root@ip-172-31-4-56 ~]# helm repo list
 NAME    URL
@@ -164,34 +178,31 @@ NAME    URL
 stable  https://charts.helm.sh/stable
 
 
-
-
 [root@ip-172-31-4-56 ~]# helm repo list
 NAME    URL
 stable  https://charts.helm.sh/stable
-
-
 
 
 [root@ip-172-31-4-56 ~]# helm repo add dragon https://cloudinfra.jfrog.io/artifactory/api/helm/dragon --username xxxxxxx@gmail.com --password api_xxxxxxxxxxxxxxxxxx
 "dragon" has been added to your repositories
-[root@ip-172-31-4-56 ~]#
 
-[root@ip-172-31-4-56 ~]#
 [root@ip-172-31-4-56 ~]# helm repo list
 NAME    URL
 stable  https://charts.helm.sh/stable
 dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
-[root@ip-172-31-4-56 ~]#
 
 
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+
+
 [root@ip-172-31-4-56 ~]# helm repo list
 NAME    URL
 stable  https://charts.helm.sh/stable
 dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
+
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
@@ -202,7 +213,6 @@ Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the "stable" chart repository
 ...Successfully got an update from the "dragon" chart repository
 Update Complete. ⎈Happy Helming!⎈
-
 
 
 
@@ -239,16 +249,18 @@ NOTES:
            You can watch the status of by running 'kubectl get svc -w tomcat'
   export SERVICE_IP=$(kubectl get svc --namespace default tomcat -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
   echo http://$SERVICE_IP:
-[root@ip-172-31-4-56 ~]#
-[root@ip-172-31-4-56 ~]#
+
+
+
 [root@ip-172-31-4-56 ~]# ls -l
 total 0
 drwxr-xr-x 4 root root 93 Apr 21 02:04 diamond
+
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                              READY   STATUS    RESTARTS   AGE
 dragon-diamond-5c8df5bc97-7s498   1/1     Running   0          22m
 tomcat-bf4bc978c-rpnxj            0/1     Running   0          48s
-[root@ip-172-31-4-56 ~]#
 
 
 [root@ip-172-31-4-56 ~]# helm repo list
@@ -264,7 +276,6 @@ dragon/stable/tomcat    0.4.3           7.0             DEPRECATED - Deploy a ba
 stable/tomcat           0.4.3           7.0             DEPRECATED - Deploy a basic tomcat application ...
 
 
-
 [root@ip-172-31-4-56 ~]# helm repo list
 NAME    URL
 stable  https://charts.helm.sh/stable
@@ -273,7 +284,6 @@ dragon  https://cloudinfra.jfrog.io/artifactory/api/helm/dragon
 
 [root@ip-172-31-4-56 ~]# helm repo remove dragon
 "dragon" has been removed from your repositories
-
 
 
 [root@ip-172-31-4-56 ~]# helm repo list
@@ -395,28 +405,19 @@ Successfully packaged chart and saved it to: /root/mychart-0.1.1.tgz
 
 
 
-
 [root@ip-172-31-4-56 ~]# helm repo update
 Hang tight while we grab the latest from your chart repositories...
 ...Successfully got an update from the "dragon" chart repository
 Update Complete. ⎈Happy Helming!⎈
 
-
-
 [root@ip-172-31-4-56 ~]# helm search repo dragon/mychart
 NAME            CHART VERSION   APP VERSION     DESCRIPTION
 dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
-
-
-
 
 [root@ip-172-31-4-56 ~]# helm search repo dragon/mychart --versions
 NAME            CHART VERSION   APP VERSION     DESCRIPTION
 dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
 dragon/mychart  0.1.0           1.16.0          A Helm chart for Kubernetes
-
-
-
 
 
 [root@ip-172-31-4-56 ~]# helm install demo dragon/mychart --version 0.1.0
@@ -436,6 +437,7 @@ NOTES:
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                            READY   STATUS              RESTARTS   AGE
 demo-mychart-6df56fb8df-6pzdq   0/1     ContainerCreating   0          7s
+
 [root@ip-172-31-4-56 ~]# kubectl get pods
 NAME                            READY   STATUS    RESTARTS   AGE
 demo-mychart-6df56fb8df-6pzdq   1/1     Running   0          9s
@@ -461,7 +463,6 @@ NAME    NAMESPACE       REVISION        UPDATED                                 
 demo    default         2               2022-04-23 01:54:07.035631876 +0000 UTC deployed        mychart-0.1.1   1.16.0
 
 
-
 [root@ip-172-31-4-56 ~]# helm upgrade demo dragon/mychart --version 0.1.1
 Release "demo" has been upgraded. Happy Helming!
 NAME: demo
@@ -477,22 +478,20 @@ NOTES:
   kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
 
 
-
 [root@ip-172-31-4-56 ~]# helm list
 NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
 demo    default         4               2022-04-23 01:58:28.187773903 +0000 UTC deployed        mychart-0.1.1   latest
+
 [root@ip-172-31-4-56 ~]# helm rollback demo 2
 Rollback was a success! Happy Helming!
+
+
 [root@ip-172-31-4-56 ~]# helm list
 NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
 demo    default         5               2022-04-23 02:02:16.603430405 +0000 UTC deployed        mychart-0.1.1   1.16.0
-
-
 
 [root@ip-172-31-4-56 ~]# helm search repo dragon/mychart --versions
 NAME            CHART VERSION   APP VERSION     DESCRIPTION
 dragon/mychart  0.1.1           1.16.0          A Helm chart for Kubernetes
 dragon/mychart  0.1.0           1.16.0          A Helm chart for Kubernetes
-
-
 
