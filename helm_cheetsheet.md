@@ -350,6 +350,8 @@ Note: modify required chnages in values.yaml and charts.yaml now create package 
         NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
         demo    default         4               2022-04-23 01:58:28.187773903 +0000 UTC deployed        mychart-0.1.1   latest
 
+# Rollback Chart to specific revision
+
 1. How to rollback chart to specific revision
 
         $ helm rollback demo 2
