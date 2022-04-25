@@ -1,85 +1,87 @@
-
-[root@ip-172-31-4-56 ~]# wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
---2022-04-21 02:03:05--  https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
-Resolving get.helm.sh (get.helm.sh)... 152.199.39.108, 2606:2800:247:1cb7:261b:1f9c:2074:3c
-Connecting to get.helm.sh (get.helm.sh)|152.199.39.108|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 13633605 (13M) [application/x-tar]
-Saving to: ‘helm-v3.8.2-linux-amd64.tar.gz’
-
-100%[=============================================================================================>] 13,633,605  --.-K/s   in 0.1s
-
-2022-04-21 02:03:07 (88.7 MB/s) - ‘helm-v3.8.2-linux-amd64.tar.gz’ saved [13633605/13633605]
+# Helm Cheetsheet
 
 
-[root@ip-172-31-4-56 ~]# ls -l
-total 13316
--rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
+### Signup or signin in to Jfrog Artifactory 
+https://cloudinfra.jfrog.io/ui/login/
+
+# login  into Linux machine where you can manage you kubernetes Cluster
+1. Downloading and Installing helm binary
+        ```sh
+        [root@ip-172-31-4-56 ~]# wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
+        --2022-04-21 02:03:05--  https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
+        Resolving get.helm.sh (get.helm.sh)... 152.199.39.108, 2606:2800:247:1cb7:261b:1f9c:2074:3c
+        Connecting to get.helm.sh (get.helm.sh)|152.199.39.108|:443... connected.
+        HTTP request sent, awaiting response... 200 OK
+        Length: 13633605 (13M) [application/x-tar]
+        Saving to: ‘helm-v3.8.2-linux-amd64.tar.gz’
+
+        100%[=============================================================================================>] 13,633,605  --.-K/s   in 0.1s
+
+        2022-04-21 02:03:07 (88.7 MB/s) - ‘helm-v3.8.2-linux-amd64.tar.gz’ saved [13633605/13633605]
+
+        [root@ip-172-31-4-56 ~]# ls -l
+        total 13316
+        -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
+
+        [root@ip-172-31-4-56 ~]# tar -xvf helm-v3.8.2-linux-amd64.tar.gz
+        linux-amd64/
+        linux-amd64/helm
+        llinux-amd64/LICENSE
+        linux-amd64/README.md
+
+        [root@ip-172-31-4-56 ~]# ls -l
+        total 13316
+        -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
+        drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
+
+        [root@ip-172-31-4-56 ~]# cd linux-amd64/
+
+        [root@ip-172-31-4-56 linux-amd64]# ls -l
+        total 44036
+        -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
+        -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
+        -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
+
+
+        [root@ip-172-31-4-56 linux-amd64]# ls -l
+        total 44036
+        -rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
+        -rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
+        -rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
 
 
 
+        [root@ip-172-31-4-56 linux-amd64]# which vi
+        /usr/bin/vi
 
-[root@ip-172-31-4-56 ~]# tar -xvf helm-v3.8.2-linux-amd64.tar.gz
-linux-amd64/
-linux-amd64/helm
-llinux-amd64/LICENSE
-linux-amd64/README.md
+        [root@ip-172-31-4-56 linux-amd64]# which ls
+        alias ls='ls --color=auto'
+                /usr/bin/ls
 
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 13316
--rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
-drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
-
-[root@ip-172-31-4-56 ~]# cd linux-amd64/
-
-[root@ip-172-31-4-56 linux-amd64]# ls -l
-total 44036
--rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
--rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
--rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
+        [root@ip-172-31-4-56 linux-amd64]# cp helm /usr/bin/
 
 
+        [root@ip-172-31-4-56 linux-amd64]# cd ..
 
-[root@ip-172-31-4-56 linux-amd64]# ls -l
-total 44036
--rwxr-xr-x 1 3434 3434 45076480 Apr 13 17:41 helm
--rw-r--r-- 1 3434 3434    11373 Apr 13 17:56 LICENSE
--rw-r--r-- 1 3434 3434     3367 Apr 13 17:56 README.md
+        [root@ip-172-31-4-56 ~]# ls -l
+        total 13316
+        -rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
+        drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
 
+        [root@ip-172-31-4-56 ~]# rm -rf helm-v3.8.2-linux-amd64.tar.gz helm
 
+        [root@ip-172-31-4-56 ~]# ls -l
+        total 0
+        drwxr-xr-x 2 3434 3434 50 Apr 13 17:56 linux-amd64
+        [root@ip-172-31-4-56 ~]# rm -rf linux-amd64/
 
-[root@ip-172-31-4-56 linux-amd64]# which vi
-/usr/bin/vi
-
-[root@ip-172-31-4-56 linux-amd64]# which ls
-alias ls='ls --color=auto'
-        /usr/bin/ls
-
-[root@ip-172-31-4-56 linux-amd64]# cp helm /usr/bin/
-
-
-[root@ip-172-31-4-56 linux-amd64]# cd ..
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 13316
--rw-r--r-- 1 root root 13633605 Apr 13 17:57 helm-v3.8.2-linux-amd64.tar.gz
-drwxr-xr-x 2 3434 3434       50 Apr 13 17:56 linux-amd64
-
-[root@ip-172-31-4-56 ~]# rm -rf helm-v3.8.2-linux-amd64.tar.gz helm
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
-drwxr-xr-x 2 3434 3434 50 Apr 13 17:56 linux-amd64
-[root@ip-172-31-4-56 ~]# rm -rf linux-amd64/
-
-[root@ip-172-31-4-56 ~]# ls -l
-total 0
+        [root@ip-172-31-4-56 ~]# ls -l
+        total 0
 
 
-[root@ip-172-31-4-56 ~]# helm version
-version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
-
+        [root@ip-172-31-4-56 ~]# helm version
+        version.BuildInfo{Version:"v3.8.2", GitCommit:"6e3701edea09e5d55a8ca2aae03a68917630e91b", GitTreeState:"clean", GoVersion:"go1.17.5"}
+        ```
 
 [root@ip-172-31-4-56 ~]# helm repo list
 Error: no repositories to show
