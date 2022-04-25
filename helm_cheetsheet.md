@@ -4,7 +4,7 @@
 ### Signup or signin in to Jfrog Artifactory 
 https://cloudinfra.jfrog.io/ui/login/
 
-# login into Linux machine where you can manage you kubernetes Cluster
+## login into Linux machine where you can manage you kubernetes Cluster
 
 1. Downloading helm gip file
 
