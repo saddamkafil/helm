@@ -5,10 +5,10 @@
 https://cloudinfra.jfrog.io/ui/login/
 
 # login  into Linux machine where you can manage you kubernetes Cluster
+
 1. Downloading and Installing helm binary
         ```sh
         [root@ip-172-31-4-56 ~]# wget https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
-        --2022-04-21 02:03:05--  https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz
         Resolving get.helm.sh (get.helm.sh)... 152.199.39.108, 2606:2800:247:1cb7:261b:1f9c:2074:3c
         Connecting to get.helm.sh (get.helm.sh)|152.199.39.108|:443... connected.
         HTTP request sent, awaiting response... 200 OK
