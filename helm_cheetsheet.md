@@ -357,3 +357,12 @@ Note: modify required changes in values.yaml and charts.yaml now create package 
         $ helm rollback demo 2
         Rollback was a success! Happy Helming!
 
+# Checking Release History
+
+1. How to Check chart to list all revisions
+
+        $ helm history demo
+        
+
+
+
