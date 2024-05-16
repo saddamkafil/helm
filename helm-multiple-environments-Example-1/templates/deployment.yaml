@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-multi-env-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: helm-multi-env
+      env: {{ .Values.environment }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ printf "environments/configmap.%s.yaml" .Values.namespace | .Files.Get | sha256sum }}
+        checksum/secrets: {{ printf "environments/secrets.%s.yaml" .Values.namespace | .Files.Get | sha256sum }}
+      labels:
+        app: helm-multi-env
+        env: {{ .Values.environment }}
+    spec:
+      containers:
+        - name: helm-multi-env
+          image: helm-multi-env:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: helm-multi-env-configmap
+            - secretRef:
+                name: helm-multi-env-secrets
