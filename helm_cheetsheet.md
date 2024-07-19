@@ -364,5 +364,12 @@ Note: modify required changes in values.yaml and charts.yaml now create package 
         $ helm history demo
         
 
+| Command | Description |
+| ------- | ----------- |
+|``sudo docker ps -a pipe grep Exit pipe cut -d ' ' -f 1 pipe xargs sudo docker rm``| Removes all containers in exited state|
+|``helm repo add runatlantis https://runatlantis.github.io/helm-charts``| Add the Helm repository (if not already added): |
+|``helm repo update``| Update your Helm repositories: |
+|``helm pull runatlantis/atlantis --untar``| Pull the charts from the rpo to local machine  |
+|`` ``|   |
 
 
