@@ -80,4 +80,6 @@ spec:
 ```
 
 Reference:
-https://www.youtube.com/watch?v=EonWeoFPpvM&t=1237s      
+Youtube: https://www.youtube.com/watch?v=EonWeoFPpvM&t=1237s   
+Document: https://external-secrets.io/latest/introduction/getting-started/  
+ 
