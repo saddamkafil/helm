@@ -1,6 +1,7 @@
 Install External Secrets using helm: 
 Add repository
-```helm repo add external-secrets https://charts.external-secrets.io
+```
+helm repo add external-secrets https://charts.external-secrets.io
 ```
 
 Install chart:
